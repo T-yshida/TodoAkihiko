@@ -1,7 +1,11 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,4 +32,11 @@ public class Task {
 	// タスクのタイトル。データベースの「title」カラムにマッピング
 	@Column(name = "title")
 	private String title;
+
+	@Column(name = "due_date")
+	private LocalDate dueDate;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "priority")
+	private Priority priority = Priority.MEDIUM; // デフォルト中
 }

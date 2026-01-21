@@ -29,6 +29,7 @@ public class TaskController {
 		model.addAttribute("tasks", taskService.getAllTasks());
 		// フォームで使用する新しいTaskオブジェクトをModelに追加
 		model.addAttribute("newTask", new Task());
+		model.addAttribute("priorities", Priority.values());
 		// index.htmlテンプレートを表示
 		return "index";
 	}
