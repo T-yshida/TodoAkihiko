@@ -15,8 +15,6 @@ import com.example.demo.service.TaskService;
 @Controller
 public class TaskController {
 
-	//✌
-
 	// TaskServiceを注入することで、タスクの操作（保存・取得・削除）を簡単に実行できる
 	@Autowired
 	private TaskService taskService;
