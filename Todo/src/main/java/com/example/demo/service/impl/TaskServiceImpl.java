@@ -64,4 +64,12 @@ public class TaskServiceImpl implements TaskService {
 		taskRepository.resetAllCompletedToFalse();
 	}
 
+	@Override
+	public List<Task> searchTasks(String keyword) {
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return taskRepository.findAll();
+		}
+		return taskRepository.findByTitleContainingIgnoreCase(keyword.trim());
+	}
+
 }

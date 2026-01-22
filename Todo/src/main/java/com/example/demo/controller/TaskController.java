@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.demo.entity.Priority;
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 
@@ -25,13 +25,16 @@ public class TaskController {
 	 * @return タスク一覧画面（index.html）
 	 */
 	@GetMapping("/")
-	public String viewTasks(Model model) {
-		// すべてのタスクを取得して、Modelに追加
-		model.addAttribute("tasks", taskService.getAllTasks());
-		// フォームで使用する新しいTaskオブジェクトをModelに追加
+	public String index(@RequestParam(name = "q", required = false) String q, Model model) {
+
+		if (q != null && !q.trim().isEmpty()) {
+			model.addAttribute("tasks", taskService.searchTasks(q));
+		} else {
+			model.addAttribute("tasks", taskService.getAllTasks());
+		}
+
+		model.addAttribute("q", q); // 入力欄に検索語を残す用
 		model.addAttribute("newTask", new Task());
-		model.addAttribute("priorities", Priority.values());
-		// index.htmlテンプレートを表示
 		return "index";
 	}
 
