@@ -58,4 +58,10 @@ public class TaskServiceImpl implements TaskService {
 		task.setCompleted(!task.isCompleted());
 		taskRepository.save(task);
 	}
+
+	@Override
+	public void resetCompletedDaily() {
+		taskRepository.resetAllCompletedToFalse();
+	}
+
 }
