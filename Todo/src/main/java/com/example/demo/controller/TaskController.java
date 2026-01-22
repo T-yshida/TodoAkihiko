@@ -60,4 +60,10 @@ public class TaskController {
 		// タスク一覧ページにリダイレクト（再読み込み）
 		return "redirect:/";
 	}
+
+	@PostMapping("/complete/{id}")
+	public String toggleComplete(@PathVariable Long id) {
+		taskService.toggleCompleted(id);
+		return "redirect:/";
+	}
 }

@@ -39,4 +39,7 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "priority")
 	private Priority priority = Priority.MEDIUM; // デフォルト中
+
+	@Column(name = "completed", nullable = false)
+	private boolean completed = false;
 }
