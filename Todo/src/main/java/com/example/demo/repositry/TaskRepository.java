@@ -11,6 +11,7 @@ import com.example.demo.entity.Task;
 import jakarta.transaction.Transactional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
+<<<<<<< HEAD
 
 	@Modifying
 	@Transactional
@@ -20,3 +21,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 	// タイトルの部分一致（大文字小文字無視）
 	List<Task> findByTitleContainingIgnoreCase(String keyword);
 }
+=======
+}
+>>>>>>> feature/唯我独尊
