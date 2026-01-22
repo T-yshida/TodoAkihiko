@@ -18,7 +18,7 @@ public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // IDを自動生成するための戦略
 	@Column(name = "id") // データベースの「id」カラムにマッピング
-	private Long id;
+	private Integer id;
 
 	// タスクのタイトル。データベースの「title」カラムにマッピング
 	@Column(name = "genre")
