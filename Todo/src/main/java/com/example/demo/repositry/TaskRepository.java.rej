@@ -1,0 +1,8 @@
+diff a/Todo/src/main/java/com/example/demo/repositry/TaskRepository.java b/Todo/src/main/java/com/example/demo/repositry/TaskRepository.java	(rejected hunks)
+@@ -7,5 +7,4 @@
+ 
+ @Repository
+ public interface TaskRepository extends JpaRepository<Task, Long> {
+-
+ }
+\ No newline at end of file
