@@ -1,5 +1,7 @@
 package com.example.demo.repositry;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +16,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 	@Transactional
 	@Query("UPDATE Task t SET t.completed = false WHERE t.completed = true")
 	int resetAllCompletedToFalse();
+
+	// タイトルの部分一致（大文字小文字無視）
+	List<Task> findByTitleContainingIgnoreCase(String keyword);
 }

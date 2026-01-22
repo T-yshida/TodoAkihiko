@@ -32,4 +32,7 @@ public interface TaskService {
 
 	void resetCompletedDaily();
 
+	// 追加：検索
+	List<Task> searchTasks(String keyword);
+
 }
