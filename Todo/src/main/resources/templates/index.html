@@ -32,16 +32,44 @@
 			<!-- タスクを繰り返し表示する -->
 			<li th:each="task : ${tasks}" class="list-group-item d-flex justify-content-between align-items-center">
 
+				<!-- 左側：タスク情報 -->
 				<div>
-					<span th:text="${task.title}"></span>
-					<span class="badge text-bg-secondary" th:if="${task.priority != null}" th:text="${task.priority}"></span>
+					<!-- タイトル（完了なら打ち消し線） -->
+					<span th:text="${task.title}"
+						th:style="${task.completed} ? 'text-decoration: line-through; opacity:0.6;' : ''">
+					</span>
+
+					<!-- 優先度 -->
+					<span class="badge text-bg-secondary" th:if="${task.priority != null}" th:text="${task.priority}">
+					</span>
+
+					<!-- 期限 -->
 					<small class="text-muted ms-2" th:if="${task.dueDate != null}">
 						（期限：<span th:text="${task.dueDate}"></span>）
 					</small>
 				</div>
 
-				<a th:href="@{/delete/{id}(id=${task.id})}" class="btn btn-danger btn-sm">Delete</a>
+				<!-- 右側：操作ボタン -->
+				<div class="d-flex gap-2">
+
+					<!-- 完了 / 戻す ボタン -->
+					<form th:action="@{/complete/{id}(id=${task.id})}" method="post" class="m-0">
+
+						<button type="submit" class="btn btn-sm"
+							th:classappend="${task.completed} ? ' btn-outline-secondary' : ' btn-success'"
+							th:text="${task.completed} ? '戻す' : '完了'">
+							完了
+						</button>
+					</form>
+
+					<!-- 削除 -->
+					<a th:href="@{/delete/{id}(id=${task.id})}" class="btn btn-danger btn-sm">
+						Delete
+					</a>
+
+				</div>
 			</li>
+
 
 		</ul>
 	</div>

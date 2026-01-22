@@ -27,4 +27,6 @@ public interface TaskService {
 	 * @param id 削除するタスクのID
 	 */
 	void deleteTask(Long id);
+
+	void toggleCompleted(Long id);
 }

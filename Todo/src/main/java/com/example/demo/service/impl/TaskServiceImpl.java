@@ -49,4 +49,13 @@ public class TaskServiceImpl implements TaskService {
 		// JPAのdeleteById()メソッドを使用してタスクを削除
 		taskRepository.deleteById(id);
 	}
+
+	@Override
+	public void toggleCompleted(Long id) {
+		Task task = taskRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("Task not found: " + id));
+
+		task.setCompleted(!task.isCompleted());
+		taskRepository.save(task);
+	}
 }
