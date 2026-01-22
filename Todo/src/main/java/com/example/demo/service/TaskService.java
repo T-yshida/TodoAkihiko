@@ -29,4 +29,7 @@ public interface TaskService {
 	void deleteTask(Long id);
 
 	void toggleCompleted(Long id);
+
+	void resetCompletedDaily();
+
 }
