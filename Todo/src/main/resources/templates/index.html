@@ -166,11 +166,10 @@
             </select>
           </div>
 
-<<<<<<< HEAD
+
           <div class="col-6 col-lg-3">
             <input type="date" th:field="*{dueDate}" class="form-control">
           </div>
-=======
 			</div>
 		</form>
 		
@@ -181,7 +180,6 @@
     			<option value="completed">未完了優先</option>
   			</select>
 		</form>
->>>>>>> c934f0ef9ea6739a73b0dff67b465dbfd968454e
 
           <div class="col-12 col-lg-1 d-grid">
             <button type="submit" class="btn btn-primary pill">
@@ -203,10 +201,9 @@
 
         <ul class="list-group list-group-flush px-2 px-md-3 pb-2 pb-md-3">
 
-<<<<<<< HEAD
           <li th:each="task, stat : ${tasks}" class="list-group-item">
             <div class="bg-white task-row p-3 p-md-3 d-flex justify-content-between align-items-center">
-=======
+
 		<!-- タスク追加フォーム -->
 		<form th:action="@{/add}" method="post" th:object="${newTask}" class="d-flex mt-4">
 			<!-- タスクのタイトルを入力するフィールド -->
@@ -231,7 +228,6 @@
 			<!-- タスクを追加するための送信ボタン -->
 			<button type="submit" class="btn btn-primary">Add</button>
 		</form>
->>>>>>> c934f0ef9ea6739a73b0dff67b465dbfd968454e
 
               <!-- Left -->
               <div class="pe-3" style="min-width: 0;">
