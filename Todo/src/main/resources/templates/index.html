@@ -42,6 +42,14 @@
 
 			</div>
 		</form>
+		
+		<form method="get" action="/sort">
+  			<select name="type" onchange="this.form.submit()">
+   				<option value="createdAt">作成日</option>
+    			<option value="priority">優先度</option>
+    			<option value="completed">未完了優先</option>
+  			</select>
+		</form>
 
 
 
