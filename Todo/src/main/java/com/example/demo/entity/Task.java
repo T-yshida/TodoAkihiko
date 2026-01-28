@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,4 +43,6 @@ public class Task {
 
 	@Column(name = "completed", nullable = false)
 	private boolean completed = false;
+
+	private LocalDateTime createdAt;
 }
