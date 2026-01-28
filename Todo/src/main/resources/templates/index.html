@@ -61,6 +61,15 @@
 			<!-- タスクを追加するための送信ボタン -->
 			<button type="submit" class="btn btn-primary">Add</button>
 		</form>
+		
+		<!-- タスクジャンル追加フォーム -->
+		<form th:action="@{/addGenre}" method="post" th:object="${newGenre}" class="d-flex mt-4">
+			<!-- タスクのジャンルを入力するフィールド -->
+			<input type="text" name="title" th:field="*{genre}" class="form-control me-2" placeholder="New TaskGenre"
+				required>
+			<!-- タスクを追加するための送信ボタン -->
+			<button type="submit" class="btn btn-primary">Add</button>
+		</form>
 
 		<!-- タスク一覧表示 -->
 		<ul class="list-group mt-4">

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.entity.Genre;
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 
@@ -38,6 +39,7 @@ public class TaskController {
 
 		model.addAttribute("q", q); // 入力欄に検索語を残す用
 		model.addAttribute("newTask", new Task());
+		model.addAttribute("newGenre", new Genre());
 		return "index";
 	}
 
