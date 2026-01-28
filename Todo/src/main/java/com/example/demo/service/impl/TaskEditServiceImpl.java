@@ -3,11 +3,13 @@ package com.example.demo.service.impl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Task;
 import com.example.demo.repositry.TaskRepository;
 import com.example.demo.service.TaskEditService;
 
+@Service
 public class TaskEditServiceImpl implements TaskEditService {
 
 	@Autowired
