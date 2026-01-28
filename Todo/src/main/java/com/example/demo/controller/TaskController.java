@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.entity.Genre;
+import com.example.demo.entity.Priority; // 追加
 import com.example.demo.entity.Task;
 import com.example.demo.service.TaskService;
 
@@ -37,9 +38,13 @@ public class TaskController {
 			model.addAttribute("tasks", taskService.getAllTasks());
 		}
 
-		model.addAttribute("q", q); // 入力欄に検索語を残す用
+		model.addAttribute("q", q);
 		model.addAttribute("newTask", new Task());
 		model.addAttribute("newGenre", new Genre());
+
+		// ★これを追加
+		model.addAttribute("priorities", Priority.values());
+
 		return "index";
 	}
 
