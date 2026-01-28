@@ -69,4 +69,11 @@ public class TaskController {
 		taskService.toggleCompleted(id);
 		return "redirect:/";
 	}
+
+	@PostMapping("/reset-all")
+	public String resetAllTasks() {
+		taskService.resetCompletedDaily();
+		return "redirect:/";
+	}
+
 }
