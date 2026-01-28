@@ -55,6 +55,10 @@
 				<option th:each="p : ${priorities}" th:value="${p}" th:text="${p}">
 				</option>
 			</select>
+			<select th:field="*{genre}" class="form-select" style="max-width: 140px;">
+				<option th:each="p : ${genres}" th:value="${p.id}" th:text="${p.genre}">
+				</option>
+			</select>
 			<div class="col-md-4">
 				<input type="date" th:field="*{dueDate}" class="form-control">
 			</div>

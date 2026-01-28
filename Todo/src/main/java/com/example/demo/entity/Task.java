@@ -40,6 +40,9 @@ public class Task {
 	@Column(name = "priority")
 	private Priority priority = Priority.MEDIUM; // デフォルト中
 
+	@Column(name = "genre_id")
+	private Integer genre;
+
 	@Column(name = "completed", nullable = false)
 	private boolean completed = false;
 }

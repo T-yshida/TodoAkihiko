@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.entity.Genre;
+import com.example.demo.dto.GenreDto;
 import com.example.demo.entity.Task;
+import com.example.demo.service.GenreService;
 import com.example.demo.service.TaskService;
 
 @Controller
@@ -22,6 +23,8 @@ public class TaskController {
 	// TaskServiceを注入することで、タスクの操作（保存・取得・削除）を簡単に実行できる
 	@Autowired
 	private TaskService taskService;
+	@Autowired
+	private GenreService genreService;
 
 	/**
 	 * タスク一覧を表示するエンドポイント
@@ -39,7 +42,8 @@ public class TaskController {
 
 		model.addAttribute("q", q); // 入力欄に検索語を残す用
 		model.addAttribute("newTask", new Task());
-		model.addAttribute("newGenre", new Genre());
+		model.addAttribute("newGenre", new GenreDto());
+		model.addAttribute("genres", genreService.getAllGenre());
 		return "index";
 	}
 
