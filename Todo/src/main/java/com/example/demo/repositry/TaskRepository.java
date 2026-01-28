@@ -1,5 +1,6 @@
 package com.example.demo.repositry;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
 	// タイトルの部分一致（大文字小文字無視）
 	List<Task> findByTitleContainingIgnoreCase(String keyword);
+
+	List<Task> findByDueDateAndCompletedFalse(LocalDate dueDate);
 }

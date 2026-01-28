@@ -35,4 +35,6 @@ public interface TaskService {
 	// 追加：検索
 	List<Task> searchTasks(String keyword);
 
+	List<Task> getTodayIncompleteTasks();
+
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,11 @@ public class TaskServiceImpl implements TaskService {
 			return taskRepository.findAll();
 		}
 		return taskRepository.findByTitleContainingIgnoreCase(keyword.trim());
+	}
+
+	@Override
+	public List<Task> getTodayIncompleteTasks() {
+		return taskRepository.findByDueDateAndCompletedFalse(LocalDate.now());
 	}
 
 }
