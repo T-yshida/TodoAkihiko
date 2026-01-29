@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.entity.Genre;
+import com.example.demo.dto.GenreDto;
 import com.example.demo.service.GenreService;
 
 @Controller
@@ -15,7 +15,7 @@ public class GenreController {
 	private GenreService genreService;
 
 	@PostMapping("/addGenre")
-	public String addGenre(@ModelAttribute Genre newGenre, Model model) {
+	public String addGenre(@ModelAttribute GenreDto newGenre, Model model) {
 		genreService.saveGenre(newGenre);
 
 		return "redirect:/";

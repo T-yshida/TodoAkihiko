@@ -10,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,6 +42,10 @@ public class Task {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "priority")
 	private Priority priority = Priority.MEDIUM; // デフォルト中
+
+	@ManyToOne
+	@JoinColumn(name = "genre_id")
+	private Genre genre;
 
 	@Column(name = "completed", nullable = false)
 	private boolean completed = false;
