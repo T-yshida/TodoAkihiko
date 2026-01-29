@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.GenreDto;
 import com.example.demo.entity.Genre;
 import com.example.demo.repositry.GenreRepository;
 import com.example.demo.service.GenreService;
@@ -22,9 +23,13 @@ public class GenreServiceImpl implements GenreService {
 	}
 
 	@Override
-	public void saveGenre(Genre genre) {
+	public void saveGenre(GenreDto genre) {
 		// TODO 自動生成されたメソッド・スタブ
-		genreRepository.save(genre);
+		Genre saveGenre = new Genre();
+
+		saveGenre.setGenre(genre.getGenre());
+
+		genreRepository.save(saveGenre);
 	}
 
 	@Override
