@@ -46,7 +46,7 @@ body { background:var(--app-bg); }
 
 /* キャラ */
 .assistant-image {
-  width: 220px;
+  width: 300px;
   transition: transform 0.15s ease;
 }
 
@@ -103,14 +103,26 @@ body { background:var(--app-bg); }
   from { transform: translateY(0); }
   to   { transform: translateY(-6px); }
 }
-
-
+.todo-area {
+  flex: 1;
+  padding: 10px 10px;
+  overflow-y: auto;
+}
+.container py-4 app-shell {
+  display: flex;
+  height: 100vh;
+}
+.todo-container {
+  max-width: 950px;
+  margin-left: auto;
+}
 </style>
 </head>
 
 <body>
 <div class="container py-4 app-shell">
-
+<div class="todo-area">
+	<div class="todo-container">
 <!-- ===== Header ===== -->
 <div class="d-flex justify-content-between align-items-center mb-3">
   <div>
@@ -358,7 +370,8 @@ body { background:var(--app-bg); }
 </div>
 </div>
 </div>
-
+</div>
+</div>
 <!-- リリンちゃん -->
 <div id="assistant-widget" class="collapsed">
 
