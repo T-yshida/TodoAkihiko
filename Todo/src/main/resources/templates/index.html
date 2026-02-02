@@ -33,6 +33,78 @@ body { background:var(--app-bg); }
   margin:0 14px;
 }
 .completed { text-decoration:line-through; opacity:.55; }
+
+#assistant-widget {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: 300px;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* キャラ */
+.assistant-image {
+  width: 220px;
+  transition: transform 0.15s ease;
+}
+
+/* 吹き出し */
+.speech-bubble {
+  background: white;
+  border-radius: 20px;
+  padding: 14px 18px;
+  margin-bottom: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+/* ミニフッター */
+.assistant-mini-footer {
+  font-weight: bold;
+  color: #4f6ef7;
+  margin-top: 4px;
+}
+
+/* 詳細エリア */
+.assistant-detail {
+  display: none;
+  margin-top: 12px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+/* 拡張状態 */
+#assistant-widget.expanded {
+  width: 360px;
+}
+
+#assistant-widget.expanded .assistant-detail {
+  display: block;
+}
+
+#assistant-widget.expanded .assistant-mini-footer {
+  display: none;
+}
+/* タップ時のリアクション */
+.assistant-main:active .assistant-image {
+  transform: scale(0.96);
+}
+
+/* 再生中にちょっと浮かせる */
+.assistant-speaking .assistant-image {
+  animation: speakFloat 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes speakFloat {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-6px); }
+}
+
+
 </style>
 </head>
 
@@ -130,6 +202,46 @@ body { background:var(--app-bg); }
 </form>
 </div>
 </div>
+
+<!-- ===== 進捗バー + 評価ボタン ===== -->
+  <div class="d-flex align-items-center gap-3">
+
+    <!-- 進捗バー -->
+    <div class="flex-grow-1">
+      <div class="progress" style="height: 14px;">
+        <div class="progress-bar"
+             role="progressbar"
+             th:style="'width:' + ${progress} + '%'"
+             th:classappend="
+               ${progress} == 100 ? ' bg-success' :
+               (${progress} >= 70 ? ' bg-info' :
+               (${progress} >= 40 ? ' bg-warning' : ' bg-danger'))
+             ">
+        </div>
+      </div>
+      <div class="small mt-1 text-muted" th:text="${progress + '% 達成'}"></div>
+    </div>
+
+    <!-- 評価ボタン -->
+    <button class="btn"
+            data-bs-toggle="modal"
+            data-bs-target="#evaluationModal"
+            th:classappend="
+              ${progress} == 100 ? ' btn-success' :
+              (${progress} >= 70 ? ' btn-info' :
+              (${progress} >= 40 ? ' btn-warning' : ' btn-outline-secondary'))
+            ">
+      <span th:if="${progress == 100}">★★★★★</span>
+      <span th:if="${progress >= 80 and progress < 100}">★★★★☆</span>
+      <span th:if="${progress >= 60 and progress < 80}">★★★☆☆</span>
+      <span th:if="${progress >= 40 and progress < 60}">★★☆☆☆</span>
+      <span th:if="${progress < 40}">★☆☆☆☆</span>
+    </button>
+
+  </div>
+
+
+<p></p>
 
 <!-- ===== Task List ===== -->
 <div class="card card-soft">
@@ -247,6 +359,30 @@ body { background:var(--app-bg); }
 </div>
 </div>
 
+<!-- リリンちゃん -->
+<div id="assistant-widget" class="collapsed">
+
+  <!-- 吹き出し -->
+  <div class="speech-bubble" id="assistantMessage">
+    <span th:text="${message}"></span>
+  </div>
+
+  <!-- キャラ（タップで喋る） -->
+  <div class="assistant-main" onclick="onAssistantTap()">
+    <img th:src="${image}" class="assistant-image">
+  </div>
+
+  <!-- 進捗ミニ表示 -->
+  <div class="assistant-mini-footer">
+    <span th:text="${progress + '%'}"></span>
+  </div>
+
+  <!-- ★ 非表示オーディオ -->
+  <audio id="assistantVoice" th:src="${voice}"></audio>
+
+</div>
+
+
 <div class="text-center small muted mt-3">© TODO Calendar</div>
 </div>
 
@@ -274,6 +410,74 @@ async function notifyIfTodayTasksIncomplete() {
     });
   } catch(e){ console.error(e); }
 }
+
+const modal = document.getElementById('evaluationModal');
+  modal.addEventListener('shown.bs.modal', () => {
+    const audio = document.getElementById('voicePlayer');
+    audio.currentTime = 0;
+    audio.play();
+  });
+  
+  window.addEventListener("load", () => {
+    const bubble = document.getElementById("assistantMessage");
+
+    if (bubble) {
+      setTimeout(() => {
+        bubble.style.opacity = "0";
+      }, 4000); // 4秒後にフェード開始
+    }
+  });
+  
+  function toggleAssistant() {
+    const widget = document.getElementById("assistant-widget");
+    widget.classList.toggle("expanded");
+  }
+  
+  let floatStopTimer = null;
+  const FLOAT_STOP_DELAY = 3000; // ← ここで秒数調整（ms）
+
+  function startFloating() {
+    const widget = document.getElementById("assistant-widget");
+
+    widget.classList.add("assistant-speaking");
+
+    // 既存タイマーがあればクリア
+    if (floatStopTimer) {
+      clearTimeout(floatStopTimer);
+    }
+
+    // 一定時間後に浮遊停止
+    floatStopTimer = setTimeout(() => {
+      widget.classList.remove("assistant-speaking");
+    }, FLOAT_STOP_DELAY);
+  }
+
+  function onAssistantTap() {
+    const audio = document.getElementById("assistantVoice");
+
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.currentTime = 0;
+      audio.play();
+      startFloating();
+    } else {
+      audio.pause();
+      startFloating(); // タップした＝反応した扱い
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const audio = document.getElementById("assistantVoice");
+
+    if (!audio) return;
+
+    audio.addEventListener("ended", () => {
+      // 終了後も即止めず、余韻用タイマー
+      startFloating();
+    });
+  });
 </script>
+
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.dto.GenreDto;
 import com.example.demo.entity.Priority; // 追加
 import com.example.demo.entity.Task;
+import com.example.demo.ririnchan.RirinResources;
 import com.example.demo.service.GenreService;
 import com.example.demo.service.TaskService;
 
@@ -35,17 +37,66 @@ public class TaskController {
 	@GetMapping("/")
 	public String index(@RequestParam(name = "q", required = false) String q, Model model) {
 
+		List<Task> tasks = taskService.getAllTasks();
+
 		if (q != null && !q.trim().isEmpty()) {
 			model.addAttribute("tasks", taskService.searchTasks(q));
 		} else {
-			model.addAttribute("tasks", taskService.getAllTasks());
+			model.addAttribute("tasks", tasks);
 		}
+
+		long total = tasks.size();
+		long completed = tasks.stream()
+				.filter(Task::isCompleted)
+				.count();
+
+		int progress = total == 0
+				? 0
+				: (int) Math.round((completed * 100.0) / total);
 
 		model.addAttribute("q", q);
 		model.addAttribute("genres", genreService.getAllGenre());
 		model.addAttribute("priorities", Priority.values());
 		model.addAttribute("newTask", new Task());
 		model.addAttribute("newGenre", new GenreDto());
+		model.addAttribute("progress", progress);
+		model.addAttribute("completedCount", completed);
+		model.addAttribute("totalCount", total);
+
+		Random ran = new Random();
+
+		String message;
+		String image;
+		String voice;
+
+		int ranNum = 0;
+
+		if (progress == 100) {
+			ranNum = ran.nextInt(5);
+			message = RirinResources.message[3][ranNum];
+			image = RirinResources.portrait[ran.nextInt(7)];
+			voice = RirinResources.voice[3][ranNum];
+		} else if (progress >= 99) {
+			ranNum = ran.nextInt(5);
+			message = RirinResources.message[2][ranNum];
+			image = RirinResources.portrait[ran.nextInt(7)];
+			voice = RirinResources.voice[2][ranNum];
+		} else if (progress >= 66) {
+			ranNum = ran.nextInt(5);
+			message = RirinResources.message[1][ranNum];
+			image = RirinResources.portrait[ran.nextInt(7)];
+			voice = RirinResources.voice[1][ranNum];
+		} else {
+			ranNum = ran.nextInt(6);
+			message = RirinResources.message[0][ranNum];
+			image = RirinResources.portrait[ran.nextInt(7)];
+			voice = RirinResources.voice[0][ranNum];
+		}
+
+		model.addAttribute("progress", progress);
+		model.addAttribute("message", message);
+		model.addAttribute("image", image);
+		model.addAttribute("voice", voice);
 
 		return "index";
 	}
