@@ -293,11 +293,16 @@ body { background:var(--app-bg); }
     <span class="badge text-bg-info pill"
           th:if="${task.genre!=null}"
           th:text="${task.genre.genre}"></span>
+      <span class="badge text-bg-info pill"
+          th:if="${task.genre!=null}"
+          th:text="${task.priority}"></span>
 
     <span th:if="${task.dueDate!=null}">
       <i class="bi bi-calendar3"></i>
       <span th:text="${task.dueDate}"></span>
     </span>
+    
+    
   </div>
 </div>
 
